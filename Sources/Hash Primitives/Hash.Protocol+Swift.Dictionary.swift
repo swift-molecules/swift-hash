@@ -11,6 +11,7 @@ extension Dictionary: Hash.`Protocol` where Key: Hash.`Protocol` & Copyable, Val
     ///
     /// - Parameter hasher: The hasher to use when combining the components.
     @inlinable
+    @_disfavoredOverload
     public borrowing func hash(into hasher: inout Hasher) {
         let selfCopy = copy self
         // Use XOR for order-independent hashing

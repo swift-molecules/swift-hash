@@ -11,6 +11,7 @@ extension Result: Hash.`Protocol` where Success: Hash.`Protocol` & Copyable, Fai
     ///
     /// - Parameter hasher: The hasher to use when combining the components.
     @inlinable
+    @_disfavoredOverload
     public borrowing func hash(into hasher: inout Hasher) {
         let selfCopy = copy self
         switch selfCopy {

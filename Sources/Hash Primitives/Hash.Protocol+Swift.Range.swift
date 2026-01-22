@@ -8,6 +8,7 @@ extension Range: Hash.`Protocol` where Bound: Hash.`Protocol` & Copyable {
     ///
     /// - Parameter hasher: The hasher to use when combining the components.
     @inlinable
+    @_disfavoredOverload
     public borrowing func hash(into hasher: inout Hasher) {
         let selfCopy = copy self
         selfCopy.lowerBound.hash(into: &hasher)
@@ -22,6 +23,7 @@ extension ClosedRange: Hash.`Protocol` where Bound: Hash.`Protocol` & Copyable {
     ///
     /// - Parameter hasher: The hasher to use when combining the components.
     @inlinable
+    @_disfavoredOverload
     public borrowing func hash(into hasher: inout Hasher) {
         let selfCopy = copy self
         selfCopy.lowerBound.hash(into: &hasher)
