@@ -1,6 +1,8 @@
 // Hash.Protocol.swift
 // A Hashable fork with ~Copyable support.
 
+public import Equation_Primitives
+
 extension Hash {
     /// A protocol for types that can be hashed, supporting both
     /// `Copyable` and `~Copyable` types.
@@ -10,7 +12,8 @@ extension Hash {
     ///
     /// ## Conforming to Protocol
     ///
-    /// Types conforming to `Hash.Protocol` must implement `==` and `hash(into:)`:
+    /// Types conforming to `Hash.Protocol` must implement `==` (via `Equation.Protocol`)
+    /// and `hash(into:)`:
     ///
     /// ```swift
     /// struct Token: ~Copyable {
@@ -34,22 +37,17 @@ extension Hash {
     /// - If `a == b`, then `a.hashValue == b.hashValue`
     /// - The converse is not required: equal hash values do not imply equality
     ///
+    /// ## Relationship to Equation.Protocol
+    ///
+    /// `Hash.Protocol` refines `Equation.Protocol`, inheriting the equality requirement.
+    /// This enforces the semantic invariant that equal values must have equal hashes.
+    ///
     /// ## Relationship to Swift.Hashable
     ///
     /// Types conforming to `Swift.Hashable` can also conform to `Hash.Protocol`
     /// with minimal additional implementation. The key difference is that
     /// `Hash.Protocol` supports move-only types through `borrowing` semantics.
-    public protocol `Protocol`: ~Copyable {
-        /// Returns whether the left-hand side is equal to the right-hand side.
-        ///
-        /// Two values that compare equal must produce the same hash value.
-        ///
-        /// - Parameters:
-        ///   - lhs: The left-hand side value.
-        ///   - rhs: The right-hand side value.
-        /// - Returns: `true` if `lhs` is equal to `rhs`.
-        static func == (lhs: borrowing Self, rhs: borrowing Self) -> Bool
-
+    public protocol `Protocol`: Equation.`Protocol`, ~Copyable {
         /// Hashes the essential components of this value by feeding them into
         /// the given hasher.
         ///
@@ -71,11 +69,5 @@ extension Hash.`Protocol` where Self: ~Copyable {
         var hasher = Hasher()
         hash(into: &hasher)
         return hasher.finalize()
-    }
-
-    /// Returns whether the left-hand side is not equal to the right-hand side.
-    @inlinable
-    public static func != (lhs: borrowing Self, rhs: borrowing Self) -> Bool {
-        !(lhs == rhs)
     }
 }
