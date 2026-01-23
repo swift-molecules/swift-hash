@@ -7,6 +7,10 @@ extension Dictionary: Hash.`Protocol` where Key: Hash.`Protocol` & Copyable, Val
     /// The hash is computed using XOR of individual key-value pair hashes
     /// to ensure order-independence.
     ///
+    /// - Note: XOR-based hashing trades collision resistance for simplicity.
+    ///   Per-element `Hasher` construction adds overhead for large dictionaries.
+    ///   This is acceptable for correctness but may be optimized in future versions.
+    ///
     /// - Note: Uses `copy` to enable iteration on borrowed instance.
     ///
     /// - Parameter hasher: The hasher to use when combining the components.
