@@ -11,7 +11,7 @@ extension UnsafeRawPointer: Hash.`Protocol` {
     @inlinable
     @_disfavoredOverload
     public borrowing func hash(into hasher: inout Hasher) {
-        let selfCopy = copy self
+        let selfCopy = unsafe copy self
         hasher.combine(Int(bitPattern: selfCopy))
     }
 }
