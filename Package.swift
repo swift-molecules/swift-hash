@@ -27,12 +27,26 @@ let package = Package(
         .target(
             name: "Hash Primitives",
             dependencies: [
+                "Hash Primitives Core",
+                "Hash Primitives Standard Library Integration"
+            ]
+        ),
+        .target(
+            name: "Hash Primitives Core",
+            dependencies: [
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
                 .product(name: "Identity Primitives", package: "swift-identity-primitives"),
             ]
         ),
+        .target(
+            name: "Hash Primitives Standard Library Integration",
+            dependencies: [
+                "Hash Primitives Core"
+            ]
+        ),
+        
     ],
     swiftLanguageModes: [.v6]
 )
