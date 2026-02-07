@@ -2,6 +2,7 @@
 // A Hashable fork with ~Copyable support.
 
 public import Equation_Primitives
+public import Identity_Primitives
 
 extension Hash {
     /// A protocol for types that can be hashed, supporting both
@@ -65,9 +66,9 @@ extension Hash.`Protocol` where Self: ~Copyable {
     /// Hash values are not guaranteed to be equal across different executions
     /// of your program. Do not save hash values to use during a future execution.
     @inlinable
-    public var hashValue: Int {
+    public var hashValue: Hash.Value {
         var hasher = Hasher()
         hash(into: &hasher)
-        return hasher.finalize()
+        return Hash.Value(__unchecked: (), hasher.finalize())
     }
 }
