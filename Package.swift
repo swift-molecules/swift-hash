@@ -16,6 +16,10 @@ let package = Package(
             name: "Hash Primitives",
             targets: ["Hash Primitives"]
         ),
+        .library(
+            name: "Hash Primitives Test Support",
+            targets: ["Hash Primitives Test Support"]
+        ),
     ],
     dependencies: [
         .package(path: "../swift-equation-primitives"),
@@ -47,6 +51,16 @@ let package = Package(
             ]
         ),
         
+
+        // MARK: - Test Support
+        .target(
+            name: "Hash Primitives Test Support",
+            dependencies: [
+                "Hash Primitives",
+                .product(name: "Identity Primitives Test Support", package: "swift-identity-primitives"),
+            ],
+            path: "Tests/Support"
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
