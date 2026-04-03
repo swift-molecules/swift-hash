@@ -17,6 +17,14 @@ let package = Package(
             targets: ["Hash Primitives"]
         ),
         .library(
+            name: "Hash Primitives Core",
+            targets: ["Hash Primitives Core"]
+        ),
+        .library(
+            name: "Hash Primitives Standard Library Integration",
+            targets: ["Hash Primitives Standard Library Integration"]
+        ),
+        .library(
             name: "Hash Primitives Test Support",
             targets: ["Hash Primitives Test Support"]
         ),
