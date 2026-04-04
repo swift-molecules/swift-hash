@@ -1,7 +1,7 @@
 // Hash.Protocol+Swift.Array.swift
 // Conditional conformance for Array when Element is Copyable.
 
-extension Swift.Array: Hash.`Protocol` where Element: Hash.`Protocol`, Element: Copyable {
+extension Array: Hash.`Protocol` where Element: Hash.`Protocol`, Element: Copyable {
     /// Hashes the array by feeding its count and elements into the hasher.
     ///
     /// - Note: Uses `copy` to enable iteration on borrowed instance.
