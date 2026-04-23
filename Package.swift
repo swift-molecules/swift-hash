@@ -33,7 +33,7 @@ let package = Package(
         .package(path: "../swift-equation-primitives"),
         .package(path: "../swift-comparison-primitives"),
         .package(path: "../swift-property-primitives"),
-        .package(path: "../swift-identity-primitives"),
+        .package(path: "../swift-tagged-primitives"),
     ],
     targets: [
         .target(
@@ -49,7 +49,7 @@ let package = Package(
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
-                .product(name: "Identity Primitives", package: "swift-identity-primitives"),
+                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
             ]
         ),
         .target(
@@ -65,7 +65,7 @@ let package = Package(
             name: "Hash Primitives Test Support",
             dependencies: [
                 "Hash Primitives",
-                .product(name: "Identity Primitives Test Support", package: "swift-identity-primitives"),
+                .product(name: "Tagged Primitives Test Support", package: "swift-tagged-primitives"),
             ],
             path: "Tests/Support"
         ),

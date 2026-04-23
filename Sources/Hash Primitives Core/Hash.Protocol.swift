@@ -2,7 +2,7 @@
 // A Hashable fork with ~Copyable support.
 
 public import Equation_Primitives
-public import Identity_Primitives
+public import Tagged_Primitives
 
 extension Hash {
     /// A protocol for types that can be hashed, supporting both
