@@ -128,6 +128,12 @@ Pre-1.0. The 0.1.0 surface — `Hash.Value` typed wrapper, `Hash.Protocol`, the 
 
 ---
 
+## Community
+
+<!-- BEGIN: discussion -->
+Discuss this package: [swift-institute/discussions/16](https://github.com/orgs/swift-institute/discussions/16)
+<!-- END: discussion -->
+
 ## License
 
 Apache 2.0. See [LICENSE.md](LICENSE.md).
