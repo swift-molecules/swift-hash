@@ -27,19 +27,24 @@ let package = Package(
             name: "Hash Protocol Primitives",
             targets: ["Hash Protocol Primitives"]
         ),
+        .library(
+            name: "Hash Tagged Primitives",
+            targets: ["Hash Tagged Primitives"]
+        ),
 
-        .library(
-            name: "Hash Primitives",
-            targets: ["Hash Primitives"]
-        ),
-        .library(
-            name: "Hash Primitives Core",
-            targets: ["Hash Primitives Core"]
-        ),
+        // MARK: - StdLib Integration
         .library(
             name: "Hash Primitives Standard Library Integration",
             targets: ["Hash Primitives Standard Library Integration"]
         ),
+
+        // MARK: - Umbrella
+        .library(
+            name: "Hash Primitives",
+            targets: ["Hash Primitives"]
+        ),
+
+        // MARK: - Test Support
         .library(
             name: "Hash Primitives Test Support",
             targets: ["Hash Primitives Test Support"]
@@ -72,27 +77,32 @@ let package = Package(
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
             ]
         ),
-
         .target(
-            name: "Hash Primitives",
+            name: "Hash Tagged Primitives",
             dependencies: [
-                "Hash Primitives Core",
-                "Hash Primitives Standard Library Integration"
+                "Hash Protocol Primitives",
+                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
             ]
         ),
+
+        // MARK: - StdLib Integration
         .target(
-            name: "Hash Primitives Core",
+            name: "Hash Primitives Standard Library Integration",
+            dependencies: [
+                "Hash Protocol Primitives",
+            ]
+        ),
+
+        // MARK: - Umbrella
+        .target(
+            name: "Hash Primitives",
             dependencies: [
                 "Hash Namespace",
                 "Hash Value Primitives",
                 "Hash Protocol Primitives",
+                "Hash Tagged Primitives",
+                "Hash Primitives Standard Library Integration",
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
-            ]
-        ),
-        .target(
-            name: "Hash Primitives Standard Library Integration",
-            dependencies: [
-                "Hash Primitives Core"
             ]
         ),
 

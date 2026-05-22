@@ -1,8 +1,5 @@
-//
-//  File.swift
-//  swift-hash-primitives
-//
-//  Created by Coen ten Thije Boonkkamp on 03/02/2026.
-//
+// exports.swift
+// Re-exports the Hash protocol surface (transitively includes
+// Hash_Namespace + Hash_Value_Primitives).
 
-@_exported import Hash_Primitives_Core
+@_exported public import Hash_Protocol_Primitives
