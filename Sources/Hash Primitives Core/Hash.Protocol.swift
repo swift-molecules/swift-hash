@@ -6,6 +6,7 @@
 // is a typealias to Swift.Hashable; under Swift <6.4, it remains the fork.
 // See: swift-institute/Research/se-0499-implications-for-equation-hash-comparison-primitives.md
 
+public import Hash_Namespace
 public import Equation_Primitives
 public import Tagged_Primitives
 

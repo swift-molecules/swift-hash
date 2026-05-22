@@ -9,6 +9,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Hash_Namespace
 public import Tagged_Primitives
 
 extension Hash {

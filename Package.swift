@@ -12,6 +12,12 @@ let package = Package(
         .visionOS(.v26),
     ],
     products: [
+        // MARK: - Namespace
+        .library(
+            name: "Hash Namespace",
+            targets: ["Hash Namespace"]
+        ),
+
         .library(
             name: "Hash Primitives",
             targets: ["Hash Primitives"]
@@ -35,6 +41,12 @@ let package = Package(
         .package(url: "https://github.com/swift-primitives/swift-tagged-primitives.git", branch: "main"),
     ],
     targets: [
+        // MARK: - Namespace
+        .target(
+            name: "Hash Namespace",
+            dependencies: []
+        ),
+
         .target(
             name: "Hash Primitives",
             dependencies: [
@@ -45,6 +57,7 @@ let package = Package(
         .target(
             name: "Hash Primitives Core",
             dependencies: [
+                "Hash Namespace",
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
                 .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
