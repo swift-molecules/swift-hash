@@ -18,6 +18,16 @@ let package = Package(
             targets: ["Hash Namespace"]
         ),
 
+        // MARK: - Sub-namespace targets
+        .library(
+            name: "Hash Value Primitives",
+            targets: ["Hash Value Primitives"]
+        ),
+        .library(
+            name: "Hash Protocol Primitives",
+            targets: ["Hash Protocol Primitives"]
+        ),
+
         .library(
             name: "Hash Primitives",
             targets: ["Hash Primitives"]
@@ -47,6 +57,22 @@ let package = Package(
             dependencies: []
         ),
 
+        // MARK: - Sub-namespace targets (per [MOD-031])
+        .target(
+            name: "Hash Value Primitives",
+            dependencies: [
+                "Hash Namespace",
+                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
+            ]
+        ),
+        .target(
+            name: "Hash Protocol Primitives",
+            dependencies: [
+                "Hash Value Primitives",
+                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+            ]
+        ),
+
         .target(
             name: "Hash Primitives",
             dependencies: [
@@ -58,9 +84,9 @@ let package = Package(
             name: "Hash Primitives Core",
             dependencies: [
                 "Hash Namespace",
-                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+                "Hash Value Primitives",
+                "Hash Protocol Primitives",
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
-                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
             ]
         ),
         .target(

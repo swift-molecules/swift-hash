@@ -6,5 +6,7 @@
 //
 
 @_exported public import Hash_Namespace
+@_exported public import Hash_Value_Primitives
+@_exported public import Hash_Protocol_Primitives
 @_exported public import Equation_Primitives
 @_exported public import Property_Primitives
