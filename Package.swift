@@ -14,8 +14,8 @@ let package = Package(
     products: [
         // MARK: - Namespace
         .library(
-            name: "Hash Namespace",
-            targets: ["Hash Namespace"]
+            name: "Hash Primitive",
+            targets: ["Hash Primitive"]
         ),
 
         // MARK: - Sub-namespace targets
@@ -58,7 +58,7 @@ let package = Package(
     targets: [
         // MARK: - Namespace
         .target(
-            name: "Hash Namespace",
+            name: "Hash Primitive",
             dependencies: []
         ),
 
@@ -66,7 +66,7 @@ let package = Package(
         .target(
             name: "Hash Value Primitives",
             dependencies: [
-                "Hash Namespace",
+                "Hash Primitive",
                 .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
             ]
         ),
@@ -97,7 +97,7 @@ let package = Package(
         .target(
             name: "Hash Primitives",
             dependencies: [
-                "Hash Namespace",
+                "Hash Primitive",
                 "Hash Value Primitives",
                 "Hash Protocol Primitives",
                 "Hash Tagged Primitives",

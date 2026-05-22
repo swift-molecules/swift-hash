@@ -6,7 +6,7 @@
 // Equation_Primitives and Property_Primitives (preserved as
 // convenience re-exports from the pre-migration shape).
 
-@_exported public import Hash_Namespace
+@_exported public import Hash_Primitive
 @_exported public import Hash_Value_Primitives
 @_exported public import Hash_Protocol_Primitives
 @_exported public import Hash_Tagged_Primitives

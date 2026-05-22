@@ -1,6 +1,6 @@
 // exports.swift
 // Re-export Hash Value Primitives (transitively re-exports
-// Hash_Namespace + Tagged_Primitives) + Equation_Primitives so
+// Hash_Primitive + Tagged_Primitives) + Equation_Primitives so
 // consumers importing Hash_Protocol_Primitives see Hash + Hash.Value
 // + Hash.Protocol + Equation.Protocol in scope via a single import.
 
