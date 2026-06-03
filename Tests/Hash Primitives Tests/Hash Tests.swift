@@ -35,18 +35,10 @@ struct Test {
 
     // MARK: - ~Copyable conformance
 
-    @Suite("Edge Case")
-    struct EdgeCase {
+    @Suite
+    struct `Edge Case` {
         struct Token: ~Copyable, Hash.`Protocol` {
             let id: Int
-
-            static func == (lhs: borrowing Self, rhs: borrowing Self) -> Bool {
-                lhs.id == rhs.id
-            }
-
-            borrowing func hash(into hasher: inout Hasher) {
-                hasher.combine(id)
-            }
         }
 
         @Test
@@ -80,20 +72,36 @@ struct Test {
 
     @Suite("Integration")
     struct Integration {
-        enum UserTag {}
-        typealias UserID = Tagged<UserTag, Int>
+        enum User {}
 
         @Test
         func `Tagged values participate in Hash.Protocol`() {
             // The fork branch declares Tagged: Hash.Protocol where Underlying: Hash.Protocol.
             // The typealias branch (Swift 6.4+) inherits Hashable from Tagged's stdlib conformance.
-            let a: UserID = 42
-            let b: UserID = 42
+            let a: User.ID = 42
+            let b: User.ID = 42
             #expect(a == b)
 
             // Hashable participation in a Set
-            let set: Set<UserID> = [42, 99, 42]
+            let set: Set<User.ID> = [42, 99, 42]
             #expect(set.count == 2)
         }
     }
+
+    @Suite("Performance", .serialized)
+    struct Performance {}
+}
+
+extension Test.`Edge Case`.Token {
+    static func == (lhs: borrowing Self, rhs: borrowing Self) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    borrowing func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+extension Test.Integration.User {
+    typealias ID = Tagged<Self, Int>
 }
