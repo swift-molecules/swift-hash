@@ -1,6 +1,6 @@
 # .github/metadata.yaml
 # Triaged by AI-assisted bulk pass (2026-04-29).
-description: "Hash types for Swift."
+description: "Typed hash-value wrapper and move-only-capable hashing protocol enforcing the equals/hashCode contract at compile time for Swift."
 topics:
   - primitives
   - hashing
