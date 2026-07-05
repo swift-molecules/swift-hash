@@ -15,4 +15,10 @@
         }
     }
 
+#else
+    // Swift 6.4+: `Hash.Protocol` refines `Swift.Hashable`; stdlib conforms
+    // `EmptyCollection: Hashable` unconditionally, which witnesses `hash(into:)`.
+    // We add only the refinement; `hashValue: Hash.Value` is defaulted.
+    extension EmptyCollection: Hash.`Protocol` where Element: Hash.`Protocol` {}
+
 #endif

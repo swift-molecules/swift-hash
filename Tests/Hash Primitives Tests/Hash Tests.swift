@@ -88,6 +88,68 @@ struct Test {
         }
     }
 
+    // MARK: - Standard Library conformance (regression guard)
+
+    /// Guards that the Standard-Library-Integration bridges make stdlib types conform to
+    /// the refining `Hash.Protocol`. These conformances are load-bearing for ~90 downstream
+    /// packages. They regressed on Swift 6.4 when the design moved from a `typealias` to a
+    /// refining protocol but the SLI module stayed gated `#if swift(<6.4)`. This suite is
+    /// unconditional: it must hold on both the pre-6.4 fork and the 6.4+ refining design.
+    @Suite("Standard Library")
+    struct StandardLibrary {
+        // Compile-time conformance witnesses: these calls fail to type-check if the
+        // corresponding `Hash.Protocol` conformance is absent (the exact 6.4 regression).
+        static func requireConformance<T: Hash.`Protocol`>(_: T.Type) {}
+
+        // The typed `hashValue: Hash.Value` accessor must remain typed (not erased to
+        // `Swift.Int`) for generic consumers — the whole reason the design refines rather
+        // than aliases `Swift.Hashable`.
+        static func typedHashValue<T: Hash.`Protocol`>(_ value: T) -> Hash.Value { value.hashValue }
+
+        @Test
+        func `scalar stdlib types conform to Hash.Protocol`() {
+            Self.requireConformance(Int.self)
+            Self.requireConformance(UInt.self)
+            Self.requireConformance(Int8.self)
+            Self.requireConformance(UInt8.self)
+            Self.requireConformance(Bool.self)
+            Self.requireConformance(String.self)
+            Self.requireConformance(Character.self)
+            Self.requireConformance(Double.self)
+            Self.requireConformance(Float.self)
+        }
+
+        @Test
+        func `container stdlib types conform to Hash.Protocol`() {
+            Self.requireConformance([Int].self)
+            Self.requireConformance(ContiguousArray<Int>.self)
+            Self.requireConformance(Set<Int>.self)
+            Self.requireConformance([String: Int].self)
+            Self.requireConformance(Int?.self)
+            Self.requireConformance(Range<Int>.self)
+            Self.requireConformance(ClosedRange<Int>.self)
+        }
+
+        @Test
+        func `typed hashValue accessor is preserved for stdlib scalars`() {
+            // In a generic context constrained to `Hash.Protocol`, `.hashValue` must yield
+            // the typed `Hash.Value`, not `Swift.Int`. The return type below is the proof.
+            let value: Hash.Value = Self.typedHashValue(42)
+            let same: Hash.Value = Self.typedHashValue(42)
+            #expect(value == same)
+        }
+
+        @Test
+        func `Tagged conforms to Hash.Protocol with a typed hashValue`() {
+            enum Account {}
+            typealias ID = Tagged<Account, Int>
+            Self.requireConformance(ID.self)
+            let value: Hash.Value = Self.typedHashValue(ID(7))
+            let same: Hash.Value = Self.typedHashValue(ID(7))
+            #expect(value == same)
+        }
+    }
+
     @Suite("Performance", .serialized)
     struct Performance {}
 }

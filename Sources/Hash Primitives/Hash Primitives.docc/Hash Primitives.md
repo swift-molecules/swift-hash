@@ -33,23 +33,28 @@ The semantic invariant — equal values must produce equal hashes — remains yo
 
 ## SE-0499 dual-mode
 
-The package's reason for existing is the `borrowing` requirement that the stdlib's `Swift.Hashable` (until SE-0499 lands at the consumer's floor) does not provide. Under Swift <6.4, `Hash.Protocol` is a separate protocol fork. Under Swift 6.4+, the protocol is a typealias to `Swift.Hashable`:
+The package's reason for existing is the `borrowing` requirement that the stdlib's `Swift.Hashable` (until SE-0499 lands at the consumer's floor) does not provide. Under Swift <6.4, `Hash.Protocol` is a separate protocol fork. Under Swift 6.4+, the protocol *refines* `Swift.Hashable` (it does **not** alias it):
 
 ```swift
 #if swift(>=6.4)
     extension Hash {
-        public typealias `Protocol` = Swift.Hashable
+        public protocol `Protocol`: Swift.Hashable, ~Copyable, ~Escapable {
+            borrowing func hash(into hasher: inout Hasher)
+            var hashValue: Hash.Value { get }   // typed; defaulted in an extension
+        }
     }
 #else
     extension Hash {
-        public protocol `Protocol`: Equation.`Protocol`, ~Copyable {
+        public protocol `Protocol`: Equation.`Protocol`, ~Copyable, ~Escapable {
             borrowing func hash(into hasher: inout Hasher)
         }
     }
 #endif
 ```
 
-Conformances written today work on both compiler families. The borrowing signature matches what Swift 6.4's `Swift.Hashable` requires; on Swift 6.3 it matches the fork.
+Refining — not aliasing — is deliberate (see the *Addendum 2026-06-01* in `swift-institute/Research/se-0499-implications-for-equation-hash-comparison-primitives.md`). A bare `typealias Protocol = Swift.Hashable` would erase `element.hashValue` to `Swift.Int`, breaking every generic consumer that passes it where `Hash.Value` is required. Refining keeps the typed `hashValue: Hash.Value` accessor while inheriting `Swift.Hashable`'s SE-0499 `borrowing` `hash(into:)`.
+
+Because it refines rather than aliases, `Swift.Hashable` conformance alone does **not** make a stdlib type a `Hash.Protocol` conformer on 6.4 — the Standard-Library-Integration bridges are still required (see *Standard Library bridges* below). Conformances written today work on both compiler families: the borrowing signature matches what Swift 6.4's `Swift.Hashable` requires; on Swift 6.3 it matches the fork.
 
 `Hash.Value` (the typed wrapper) is independent of the SE-0499 question — it ships in both compiler modes.
 
@@ -65,8 +70,8 @@ Conformances written today work on both compiler families. The borrowing signatu
 
 ### Hashing protocol
 
-`Hash.Protocol` is the hashing protocol; under Swift 6.4+ it is a typealias to `Swift.Hashable`. The fork branch declares `protocol \`Protocol\`: Equation.\`Protocol\`, ~Copyable` with a `borrowing func hash(into hasher: inout Hasher)` requirement, plus a default `hashValue: Hash.Value` accessor.
+`Hash.Protocol` is the hashing protocol. Under Swift 6.4+ it *refines* `Swift.Hashable` (adding a typed `hashValue: Hash.Value` accessor); it is not a typealias. The fork branch (<6.4) declares `protocol \`Protocol\`: Equation.\`Protocol\`, ~Copyable, ~Escapable` with a `borrowing func hash(into hasher: inout Hasher)` requirement, plus a default `hashValue: Hash.Value` accessor.
 
 ### Standard Library bridges
 
-Under Swift <6.4, stdlib `Hashable` types are re-conformed to `Hash.Protocol` via the `Hash Primitives Standard Library Integration` target. Under Swift 6.4+, those bridges become no-ops because `Hash.Protocol` IS `Swift.Hashable` and stdlib conformances already satisfy it.
+Stdlib `Hashable` types are re-conformed to `Hash.Protocol` via the `Hash Primitives Standard Library Integration` target on **both** compiler families. Under Swift <6.4 the bridges supply full fork conformances (custom `hash(into:)` bodies). Under Swift 6.4+ they supply an empty refining conformance (`extension Int: Hash.Protocol {}`, etc.) — the stdlib `Swift.Hashable` conformance witnesses `hash(into:)` and `hashValue: Hash.Value` is defaulted, but the refinement still has to be stated explicitly because refining (not aliasing) means `Swift.Hashable` conformance alone is insufficient. Types that are not stdlib-`Hashable`/`Equatable` (`Span`, `KeyValuePairs`, partial ranges, reversed collections, buffer pointers) are handled case by case; some remain gated to <6.4 pending an `Equation.Protocol` (Equatable) 6.4 bridge in ``Equation_Primitives``.
