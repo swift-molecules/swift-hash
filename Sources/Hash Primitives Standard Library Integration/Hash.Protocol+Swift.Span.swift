@@ -4,9 +4,10 @@
 
     extension Span: Hash.`Protocol` where Element: Hash.`Protocol` & ~Copyable {
         /// Hashes the span by feeding its count and each element into the hasher, in
-        /// order — element-wise, like `Array`. Each element is hashed via the
-        /// `borrowing` `hash(into:)`, so this supports `~Copyable` elements and never
-        /// copies an element out of the span.
+        /// order — element-wise, like `Array`.
+        ///
+        /// Each element is hashed via the `borrowing` `hash(into:)`, so this supports
+        /// `~Copyable` elements and never copies an element out of the span.
         ///
         /// - Parameter hasher: The hasher to use when combining the components.
         @inlinable

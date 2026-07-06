@@ -91,10 +91,12 @@ struct Test {
     // MARK: - Standard Library conformance (regression guard)
 
     /// Guards that the Standard-Library-Integration bridges make stdlib types conform to
-    /// the refining `Hash.Protocol`. These conformances are load-bearing for ~90 downstream
-    /// packages. They regressed on Swift 6.4 when the design moved from a `typealias` to a
-    /// refining protocol but the SLI module stayed gated `#if swift(<6.4)`. This suite is
-    /// unconditional: it must hold on both the pre-6.4 fork and the 6.4+ refining design.
+    /// the refining `Hash.Protocol`.
+    ///
+    /// These conformances are load-bearing for ~90 downstream packages. They regressed on
+    /// Swift 6.4 when the design moved from a `typealias` to a refining protocol but the
+    /// SLI module stayed gated `#if swift(<6.4)`. This suite is unconditional: it must hold
+    /// on both the pre-6.4 fork and the 6.4+ refining design.
     @Suite("Standard Library")
     struct StandardLibrary {
         // Compile-time conformance witnesses: these calls fail to type-check if the
