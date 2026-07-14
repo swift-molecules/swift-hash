@@ -103,6 +103,7 @@ let package = Package(
                 "Hash Tagged Primitives",
                 "Hash Primitives Standard Library Integration",
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
+                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
             ]
         ),
 
