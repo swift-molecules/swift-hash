@@ -10,7 +10,8 @@
     // Hash.Protocol+Swift.KeyValuePairs.swift
     // Conditional conformance for KeyValuePairs when Key and Value are Copyable.
 
-    extension KeyValuePairs: Hash.`Protocol` where Key: Hash.`Protocol` & Copyable, Value: Hash.`Protocol` & Copyable {
+    extension KeyValuePairs: Hash.`Protocol`
+    where Key: Hash.`Protocol` & Copyable, Value: Hash.`Protocol` & Copyable {
         /// Hashes the key-value pairs collection.
         ///
         /// - Note: Uses `copy` to enable iteration on borrowed instance.
