@@ -2,7 +2,8 @@
     // Hash.Protocol+Swift.Result.swift
     // Conditional conformance for Result when Success and Failure are Copyable.
 
-    extension Result: Hash.`Protocol` where Success: Hash.`Protocol` & Copyable, Failure: Hash.`Protocol` & Copyable {
+    extension Result: Hash.`Protocol`
+    where Success: Hash.`Protocol` & Copyable, Failure: Hash.`Protocol` & Copyable {
         /// Hashes the result by feeding its components into the hasher.
         ///
         /// Hashes a discriminator (0 for `.success`, 1 for `.failure`) followed

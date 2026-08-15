@@ -30,7 +30,8 @@
     // conforming to an in-package protocol that refines a stdlib one must state both:
     // `: Hash.Protocol, @retroactive Swift.Hashable`. `Span: Swift.Equatable` (required
     // by `Swift.Hashable`) comes from equation-primitives' SLI.
-    extension Span: Hash.`Protocol`, @retroactive Swift.Hashable where Element: Hash.`Protocol` & ~Copyable {
+    extension Span: Hash.`Protocol`, @retroactive Swift.Hashable
+    where Element: Hash.`Protocol` & ~Copyable {
         /// Hashes the span by feeding its count and each element into the hasher, in order.
         @inlinable
         @_disfavoredOverload

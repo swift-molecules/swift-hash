@@ -2,7 +2,8 @@
     // Hash.Protocol+Swift.Dictionary.swift
     // Conditional conformance for Dictionary when Key and Value are Copyable.
 
-    extension Dictionary: Hash.`Protocol` where Key: Hash.`Protocol` & Copyable, Value: Hash.`Protocol` & Copyable {
+    extension Dictionary: Hash.`Protocol`
+    where Key: Hash.`Protocol` & Copyable, Value: Hash.`Protocol` & Copyable {
         /// Hashes the dictionary by feeding its components into the hasher.
         ///
         /// The hash is computed using XOR of individual key-value pair hashes

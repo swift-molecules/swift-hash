@@ -5,7 +5,8 @@ public import Tagged_Primitives
 
 #if swift(<6.4)
 
-    extension Tagged: Hash.`Protocol` where Tag: ~Copyable & ~Escapable, Underlying: ~Copyable & Hash.`Protocol` {
+    extension Tagged: Hash.`Protocol`
+    where Tag: ~Copyable & ~Escapable, Underlying: ~Copyable & Hash.`Protocol` {
         /// Hashes the essential components of this tagged value by feeding them into
         /// the given hasher.
         ///
