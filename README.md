@@ -94,10 +94,8 @@ Four library products plus a Test Support target:
 |---------|----------|----------------|
 | `Hash Primitives` | Umbrella — re-exports Core + Standard Library Integration | Most consumers |
 | `Hash Primitives Core` | `Hash` namespace, `Hash.Value`, `Hash.Protocol` | Embedded contexts, or when stdlib bridges are unwanted |
-| `Hash Primitives Standard Library Integration` | Re-conformance of stdlib types under Swift <6.4 | Pulled in transitively by the umbrella |
+| `Hash Primitives Standard Library Integration` | `Hash.Protocol` refinements for standard-library types | Pulled in transitively by the umbrella |
 | `Hash Primitives Test Support` | Re-export of upstream Test Support modules | Test target only |
-
-The `Standard Library Integration` target's bridges are gated behind `#if swift(<6.4)`. Under Swift 6.4 and later, stdlib types already conform to `Swift.Hashable` (which `Hash.Protocol` typealiases to) and the bridges become no-ops.
 
 ---
 
