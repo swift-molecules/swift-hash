@@ -94,8 +94,7 @@ import Testing
     ///
     /// These conformances are load-bearing for ~90 downstream packages. They regressed on
     /// Swift 6.4 when the design moved from a `typealias` to a refining protocol but the
-    /// SLI module stayed gated `#if swift(<6.4)`. This suite is unconditional: it must hold
-    /// on both the pre-6.4 fork and the 6.4+ refining design.
+    /// The standard-library integration must expose these conformances unconditionally.
     @Suite
     struct `Standard Library` {
         enum Require {}

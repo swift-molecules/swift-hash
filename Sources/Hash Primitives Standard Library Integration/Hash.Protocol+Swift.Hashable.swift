@@ -1,7 +1,7 @@
 // Hash.Protocol+Swift.Hashable.swift
 // Bridge implementations for Swift.Hashable types.
 //
-// These scalar bridges are UNCONDITIONAL (present on both Swift <6.4 and 6.4+).
+// Scalar standard-library types explicitly adopt the Institute refinement.
 // Under <6.4, `Hash.Protocol` is a fork refining `Equation.Protocol`; the empty
 // conformance is satisfied by each scalar's stdlib `Hashable`/`Equatable` witnesses
 // plus the institute `Equation.Protocol` bridge. Under 6.4+, `Hash.Protocol` refines
