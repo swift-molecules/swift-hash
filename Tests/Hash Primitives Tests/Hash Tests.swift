@@ -118,6 +118,8 @@ import Testing
         func `container stdlib types conform to Hash.Protocol`() {
             Require.conformance([Int].self)
             Require.conformance(ContiguousArray<Int>.self)
+            Require.conformance(CollectionOfOne<Int>.self)
+            Require.conformance(EmptyCollection<Int>.self)
             Require.conformance(Set<Int>.self)
             Require.conformance([String: Int].self)
             Require.conformance(Int?.self)
