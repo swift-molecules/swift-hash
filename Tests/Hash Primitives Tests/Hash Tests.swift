@@ -1,12 +1,7 @@
-// Hash Tests.swift
-// Tests for Hash.Value, Hash.Protocol conformance, and the equals/hashCode contract.
-
 import Hash_Primitives_Test_Support
 import Testing
 
 @Suite struct `Hash Tests` {
-
-    // MARK: - Hash.Value typed wrapper
 
     @Suite("Unit")
     struct Unit {
@@ -32,8 +27,6 @@ import Testing
         }
     }
 
-    // MARK: - ~Copyable conformance
-
     @Suite
     struct `Edge Case` {
         struct Token: ~Copyable, Hash.`Protocol` {
@@ -50,8 +43,7 @@ import Testing
 
         @Test
         func `~Copyable type produces consistent hash for equal values`() {
-            // equals/hashCode contract: a == b implies hash(a) == hash(b).
-            // Compute hashes via two separate hashers and compare.
+
             let a = Token(id: 7)
             let b = Token(id: 7)
 
@@ -67,34 +59,22 @@ import Testing
         }
     }
 
-    // MARK: - Tagged conformance
-
     @Suite("Integration")
     struct Integration {
         enum User {}
 
         @Test
         func `Tagged values participate in Hash.Protocol`() {
-            // The fork branch declares Tagged: Hash.Protocol where Underlying: Hash.Protocol.
-            // The typealias branch (Swift 6.4+) inherits Hashable from Tagged's stdlib conformance.
+
             let a: User.ID = 42
             let b: User.ID = 42
             #expect(a == b)
 
-            // Hashable participation in a Set
             let set: Set<User.ID> = [42, 99, 42]
             #expect(set.count == 2)
         }
     }
 
-    // MARK: - Standard Library conformance (regression guard)
-
-    /// Guards that the Standard-Library-Integration bridges make stdlib types conform to
-    /// the refining `Hash.Protocol`.
-    ///
-    /// These conformances are load-bearing for ~90 downstream packages. They regressed on
-    /// Swift 6.4 when the design moved from a `typealias` to a refining protocol but the
-    /// The standard-library integration must expose these conformances unconditionally.
     @Suite
     struct `Standard Library` {
         enum Require {}
@@ -128,8 +108,7 @@ import Testing
 
         @Test
         func `typed hashValue accessor is preserved for stdlib scalars`() {
-            // In a generic context constrained to `Hash.Protocol`, `.hashValue` must yield
-            // the typed `Hash.Value`, not `Swift.Int`. The return type below is the proof.
+
             let value: Hash.Value = Typed.hashValue(42)
             let same: Hash.Value = Typed.hashValue(42)
             #expect(value == same)
@@ -165,14 +144,11 @@ extension `Hash Tests`.Integration.User {
 }
 
 extension `Hash Tests`.`Standard Library`.Require {
-    // Compile-time conformance witnesses: these calls fail to type-check if the
-    // corresponding `Hash.Protocol` conformance is absent (the exact 6.4 regression).
+
     static func conformance<T: Hash.`Protocol`>(_: T.Type) {}
 }
 
 extension `Hash Tests`.`Standard Library`.Typed {
-    // The typed `hashValue: Hash.Value` accessor must remain typed (not erased to
-    // `Swift.Int`) for generic consumers — the whole reason the design refines rather
-    // than aliases `Swift.Hashable`.
+
     static func hashValue<T: Hash.`Protocol`>(_ value: T) -> Hash.Value { value.hashValue }
 }

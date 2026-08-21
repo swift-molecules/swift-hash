@@ -12,13 +12,12 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        // MARK: - Namespace
+
         .library(
             name: "Hash Primitive",
             targets: ["Hash Primitive"]
         ),
 
-        // MARK: - Sub-namespace targets
         .library(
             name: "Hash Value Primitives",
             targets: ["Hash Value Primitives"]
@@ -32,19 +31,16 @@ let package = Package(
             targets: ["Hash Tagged Primitives"]
         ),
 
-        // MARK: - StdLib Integration
         .library(
             name: "Hash Primitives Standard Library Integration",
             targets: ["Hash Primitives Standard Library Integration"]
         ),
 
-        // MARK: - Umbrella
         .library(
             name: "Hash Primitives",
             targets: ["Hash Primitives"]
         ),
 
-        // MARK: - Test Support
         .library(
             name: "Hash Primitives Test Support",
             targets: ["Hash Primitives Test Support"]
@@ -56,13 +52,12 @@ let package = Package(
         .package(url: "https://github.com/swift-primitives/swift-tagged-primitives.git", branch: "main"),
     ],
     targets: [
-        // MARK: - Namespace
+
         .target(
             name: "Hash Primitive",
             dependencies: []
         ),
 
-        // MARK: - Sub-namespace targets (per [MOD-031])
         .target(
             name: "Hash Value Primitives",
             dependencies: [
@@ -85,7 +80,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - StdLib Integration
         .target(
             name: "Hash Primitives Standard Library Integration",
             dependencies: [
@@ -93,7 +87,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Umbrella
         .target(
             name: "Hash Primitives",
             dependencies: [
@@ -107,7 +100,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Test Support
         .target(
             name: "Hash Primitives Test Support",
             dependencies: [
