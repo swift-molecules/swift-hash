@@ -1,5 +1,5 @@
 public import Hash_Primitive
-public import Tagged_Primitives
+public import Tagged
 
 extension Hash {
 
