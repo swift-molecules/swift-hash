@@ -1,4 +1,5 @@
-import Hash_Test_Support
+import Hash
+import Tagged
 import Testing
 
 @Suite struct `Hash Tests` {
