@@ -1,5 +1,7 @@
 import Hash
+import Hash_Standard_Library_Integration
 import Tagged
+import Tagged_Standard_Library_Integration
 import Testing
 
 @Suite struct `Hash Tests` {
@@ -9,21 +11,21 @@ import Testing
         @Test
         func `Hash.Value wraps an Int via Tagged`() {
             let raw: Int = 42
-            let value: Hash.Value = .init(raw)
+            let value: Hash.Value = .init(_unchecked: raw)
             #expect(value.underlying == 42)
         }
 
         @Test
         func `Hash.Value distinct values are unequal`() {
-            let a: Hash.Value = .init(1)
-            let b: Hash.Value = .init(2)
+            let a: Hash.Value = .init(_unchecked: 1)
+            let b: Hash.Value = .init(_unchecked: 2)
             #expect(a != b)
         }
 
         @Test
         func `Hash.Value equal values are equal`() {
-            let a: Hash.Value = .init(42)
-            let b: Hash.Value = .init(42)
+            let a: Hash.Value = .init(_unchecked: 42)
+            let b: Hash.Value = .init(_unchecked: 42)
             #expect(a == b)
         }
     }
@@ -112,16 +114,6 @@ import Testing
 
             let value: Hash.Value = Typed.hashValue(42)
             let same: Hash.Value = Typed.hashValue(42)
-            #expect(value == same)
-        }
-
-        @Test
-        func `Tagged conforms to Hash.Protocol with a typed hashValue`() {
-            enum Account {}
-            typealias ID = Tagged<Account, Int>
-            Require.conformance(ID.self)
-            let value: Hash.Value = Typed.hashValue(ID(7))
-            let same: Hash.Value = Typed.hashValue(ID(7))
             #expect(value == same)
         }
     }

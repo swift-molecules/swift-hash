@@ -12,3 +12,19 @@ where Element: Hash.`Protocol` & ~Copyable {
         }
     }
 }
+
+extension Span: @retroactive Swift.Equatable
+where Element: Hash.`Protocol` & ~Copyable {
+
+    @inlinable
+    @_disfavoredOverload
+    public static func == (lhs: Span, rhs: Span) -> Bool {
+        guard lhs.count == rhs.count else { return false }
+        var index = 0
+        while index < lhs.count {
+            guard lhs[index] == rhs[index] else { return false }
+            index += 1
+        }
+        return true
+    }
+}

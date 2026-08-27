@@ -50,7 +50,9 @@ let package = Package(
             name: "Hash Tests",
             dependencies: [
                 "Hash",
+                "Hash Standard Library Integration",
                 .product(name: "Tagged", package: "swift-tagged"),
+                .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
             ]
         ),
     ],
