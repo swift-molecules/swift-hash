@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-hash-primitives",
+    name: "swift-hash",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -13,106 +13,80 @@ let package = Package(
     ],
     products: [
 
+        .library(name: "Hash", targets: ["Hash"]),
+        .library(name: "Hash Value", targets: ["Hash Value"]),
+        .library(name: "Hash Protocol", targets: ["Hash Protocol"]),
+        .library(name: "Hash Tagged", targets: ["Hash Tagged"]),
         .library(
-            name: "Hash Primitive",
-            targets: ["Hash Primitive"]
-        ),
-
-        .library(
-            name: "Hash Value Primitives",
-            targets: ["Hash Value Primitives"]
-        ),
-        .library(
-            name: "Hash Protocol Primitives",
-            targets: ["Hash Protocol Primitives"]
-        ),
-        .library(
-            name: "Hash Tagged Primitives",
-            targets: ["Hash Tagged Primitives"]
-        ),
-
-        .library(
-            name: "Hash Primitives Standard Library Integration",
-            targets: ["Hash Primitives Standard Library Integration"]
-        ),
-
-        .library(
-            name: "Hash Primitives",
-            targets: ["Hash Primitives"]
-        ),
-
-        .library(
-            name: "Hash Primitives Test Support",
-            targets: ["Hash Primitives Test Support"]
+            name: "Hash Standard Library Integration",
+            targets: ["Hash Standard Library Integration"]
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-primitives/swift-equation-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-property-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-tagged-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-equation.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-tagged.git", branch: "main"),
     ],
     targets: [
 
-        .target(
-            name: "Hash Primitive",
-            dependencies: []
-        ),
+        .target(name: "Hash", dependencies: []),
 
         .target(
-            name: "Hash Value Primitives",
+            name: "Hash Value",
             dependencies: [
-                "Hash Primitive",
-                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
+                .target(name: "Hash"),
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
         .target(
-            name: "Hash Protocol Primitives",
+            name: "Hash Protocol",
             dependencies: [
-                "Hash Value Primitives",
-                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+                .target(name: "Hash Value"),
+                .product(name: "Equation Protocol", package: "swift-equation"),
             ]
         ),
         .target(
-            name: "Hash Tagged Primitives",
+            name: "Hash Tagged",
             dependencies: [
-                "Hash Protocol Primitives",
-                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
+                .target(name: "Hash Protocol"),
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
 
         .target(
-            name: "Hash Primitives Standard Library Integration",
+            name: "Hash Standard Library Integration",
             dependencies: [
-                "Hash Protocol Primitives",
+                .target(name: "Hash Protocol"),
             ]
-        ),
-
-        .target(
-            name: "Hash Primitives",
-            dependencies: [
-                "Hash Primitive",
-                "Hash Value Primitives",
-                "Hash Protocol Primitives",
-                "Hash Tagged Primitives",
-                "Hash Primitives Standard Library Integration",
-                .product(name: "Property Primitives", package: "swift-property-primitives"),
-                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
-            ]
-        ),
-
-        .target(
-            name: "Hash Primitives Test Support",
-            dependencies: [
-                "Hash Primitives",
-                .product(name: "Tagged Primitives Test Support", package: "swift-tagged-primitives"),
-            ],
-            path: "Tests/Support"
         ),
         .testTarget(
-            name: "Hash Primitives Tests",
+            name: "Hash Tests",
             dependencies: [
-                "Hash Primitives",
-                "Hash Primitives Test Support",
+                .target(name: "Hash"),
+            ]
+        ),
+        .testTarget(
+            name: "Hash Value Tests",
+            dependencies: [
+                .target(name: "Hash Value"),
+            ]
+        ),
+        .testTarget(
+            name: "Hash Protocol Tests",
+            dependencies: [
+                .target(name: "Hash Protocol"),
+            ]
+        ),
+        .testTarget(
+            name: "Hash Tagged Tests",
+            dependencies: [
+                .target(name: "Hash Tagged"),
+                .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
+            ]
+        ),
+        .testTarget(
+            name: "Hash Standard Library Integration Tests",
+            dependencies: [
+                .target(name: "Hash Standard Library Integration"),
             ]
         ),
     ],

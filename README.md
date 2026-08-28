@@ -1,11 +1,11 @@
-# Hash Primitives
+# Hash
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
-[![CI](https://github.com/swift-primitives/swift-hash-primitives/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-primitives/swift-hash-primitives/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-atoms/swift-hash/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-atoms/swift-hash/actions/workflows/ci.yml)
 
 `Hash.Value` — a typed wrapper for hash output that prevents accidental misuse of arbitrary integers as hashes — and `Hash.Protocol`, a hashing protocol that admits `~Copyable` types via `borrowing` parameters. Mirrors `Swift.Hashable` and, on Swift 6.4 and later, *is* `Swift.Hashable` via a namespace typealias once [SE-0499](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0499-support-non-copyable-simple-protocols.md) lands at your floor.
 
-Refines [`swift-equation-primitives`](https://github.com/swift-primitives/swift-equation-primitives) at the type level — encoding the equals/hashCode contract (equal values must produce equal hashes) as a compile-time invariant.
+Refines [`swift-equation`](https://github.com/swift-atoms/swift-equation) at the type level — encoding the equals/hashCode contract (equal values must produce equal hashes) as a compile-time invariant.
 
 ---
 
@@ -24,13 +24,13 @@ Refines [`swift-equation-primitives`](https://github.com/swift-primitives/swift-
 A move-only token type conforms with `borrowing` `==` and `hash(into:)`:
 
 ```swift
-import Hash_Primitives
+import Hash_Protocol
 
 struct Token: ~Copyable {
     let id: Int
 }
 
-extension Token: Hash.`Protocol` {
+extension Token: Hash::Hash.`Protocol` {
     static func == (lhs: borrowing Token, rhs: borrowing Token) -> Bool {
         lhs.id == rhs.id
     }
@@ -44,14 +44,14 @@ extension Token: Hash.`Protocol` {
 `Hash.Value` is the typed wrapper for hash output:
 
 ```swift
-let value: Hash.Value = .init(42)
+let value: Hash::Hash.Value = .init(42)
 let raw: Int = value.underlying
 ```
 
 A `Copyable` type that already conforms to `Swift.Hashable` conforms with an empty extension under Swift <6.4 — and skips the conformance entirely under Swift 6.4+, because `Hash.Protocol` IS `Swift.Hashable` there:
 
 ```swift
-struct UserID: Hashable, Hash.`Protocol` {
+struct UserID: Hashable, Hash::Hash.`Protocol` {
     let value: UInt64
 }
 // no body required — Swift.Hashable's hash(into:) satisfies the requirement
@@ -65,22 +65,22 @@ Add the dependency to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-hash-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-hash.git", branch: "main")
 ]
 ```
 
-Add the umbrella product to your target:
+Add the protocol product to your target:
 
 ```swift
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Hash Primitives", package: "swift-hash-primitives")
+        .product(name: "Hash Protocol", package: "swift-hash")
     ]
 )
 ```
 
-For narrower surface, depend on `Hash Primitives Core` alone (typed wrapper + protocol, no stdlib bridge).
+Add `Hash Tagged` or `Hash Standard Library Integration` separately when those conformances are needed.
 
 Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 (or the corresponding Linux / Windows toolchain).
 
@@ -88,14 +88,15 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Architecture
 
-Four library products plus a Test Support target:
+Five layered library products:
 
 | Product | Contents | When to import |
 |---------|----------|----------------|
-| `Hash Primitives` | Umbrella — re-exports Core + Standard Library Integration | Most consumers |
-| `Hash Primitives Core` | `Hash` namespace, `Hash.Value`, `Hash.Protocol` | Embedded contexts, or when stdlib bridges are unwanted |
-| `Hash Primitives Standard Library Integration` | `Hash.Protocol` refinements for standard-library types | Pulled in transitively by the umbrella |
-| `Hash Primitives Test Support` | Re-export of upstream Test Support modules | Test target only |
+| `Hash` | The `Hash` namespace | Foundations for layered Hash modules |
+| `Hash Value` | The typed `Hash.Value` wrapper | Typed hash results |
+| `Hash Protocol` | `Hash.Protocol` and its typed `hashValue` | Hashing conformances and generic constraints |
+| `Hash Tagged` | Conditional `Tagged` conformance | Tagged values |
+| `Hash Standard Library Integration` | `Hash.Protocol` refinements for standard-library types | Standard-library values and collections |
 
 ---
 
@@ -119,10 +120,10 @@ Pre-1.0. The 0.1.0 surface — `Hash.Value` typed wrapper, `Hash.Protocol`, the 
 
 ## Related Packages
 
-- [`swift-equation-primitives`](https://github.com/swift-primitives/swift-equation-primitives) — equality protocol that `Hash.Protocol` refines (encodes the equals/hashCode contract at the type level).
-- [`swift-comparison-primitives`](https://github.com/swift-primitives/swift-comparison-primitives) — three-way comparison + `Comparison.Protocol` (also refines `Equation.Protocol`).
-- [`swift-tagged-primitives`](https://github.com/swift-primitives/swift-tagged-primitives) — `Tagged<Hash, Int>` powers `Hash.Value`. `Tagged` itself conditionally conforms to `Hash.Protocol`.
-- [`swift-property-primitives`](https://github.com/swift-primitives/swift-property-primitives) — fluent accessor namespaces.
+- [`swift-equation`](https://github.com/swift-atoms/swift-equation) — equality protocol that `Hash.Protocol` refines (encodes the equals/hashCode contract at the type level).
+- [`swift-comparison`](https://github.com/swift-atoms/swift-comparison) — three-way comparison + `Comparison.Protocol` (also refines `Equation.Protocol`).
+- [`swift-tagged`](https://github.com/swift-atoms/swift-tagged) — `Tagged<Hash, Int>` powers `Hash.Value`. `Tagged` itself conditionally conforms to `Hash.Protocol`.
+- [`swift-property`](https://github.com/swift-atoms/swift-property) — fluent accessor namespaces.
 
 ---
 
