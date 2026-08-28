@@ -1,3 +1,4 @@
+public import Hash_Primitive
 public import Tagged
 
 extension Hash {
