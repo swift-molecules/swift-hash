@@ -1,4 +1,4 @@
-extension CollectionOfOne: Hash.`Protocol` where Element: Hash.`Protocol`, Element: Copyable {
+extension CollectionOfOne: Hash::Hash.`Protocol` where Element: Hash::Hash.`Protocol`, Element: Copyable {
 
     @inlinable
     @_disfavoredOverload

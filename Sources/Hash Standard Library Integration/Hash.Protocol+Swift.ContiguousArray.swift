@@ -1,1 +1,1 @@
-extension ContiguousArray: Hash.`Protocol` where Element: Hash.`Protocol`, Element: Copyable {}
+extension ContiguousArray: Hash::Hash.`Protocol` where Element: Hash::Hash.`Protocol`, Element: Copyable {}

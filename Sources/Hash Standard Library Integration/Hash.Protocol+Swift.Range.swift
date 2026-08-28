@@ -1,2 +1,2 @@
-extension Range: Hash.`Protocol` where Bound: Hash.`Protocol` & Copyable {}
-extension ClosedRange: Hash.`Protocol` where Bound: Hash.`Protocol` & Copyable {}
+extension Range: Hash::Hash.`Protocol` where Bound: Hash::Hash.`Protocol` & Copyable {}
+extension ClosedRange: Hash::Hash.`Protocol` where Bound: Hash::Hash.`Protocol` & Copyable {}

@@ -1,2 +1,2 @@
-extension Dictionary: Hash.`Protocol`
-where Key: Hash.`Protocol` & Copyable, Value: Hash.`Protocol` & Copyable {}
+extension Dictionary: Hash::Hash.`Protocol`
+where Key: Hash::Hash.`Protocol` & Copyable, Value: Hash::Hash.`Protocol` & Copyable {}

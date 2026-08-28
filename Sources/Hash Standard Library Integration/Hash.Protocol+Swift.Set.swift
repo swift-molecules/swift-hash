@@ -1,1 +1,1 @@
-extension Set: Hash.`Protocol` where Element: Hash.`Protocol` & Copyable {}
+extension Set: Hash::Hash.`Protocol` where Element: Hash::Hash.`Protocol` & Copyable {}

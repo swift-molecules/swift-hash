@@ -13,69 +13,41 @@ let package = Package(
     ],
     products: [
 
-        .library(
-            name: "Hash Primitive",
-            targets: ["Hash Primitive"]
-        ),
-
-        .library(
-            name: "Hash Value",
-            targets: ["Hash Value"]
-        ),
-        .library(
-            name: "Hash Protocol",
-            targets: ["Hash Protocol"]
-        ),
-        .library(
-            name: "Hash Tagged",
-            targets: ["Hash Tagged"]
-        ),
-
+        .library(name: "Hash", targets: ["Hash"]),
+        .library(name: "Hash Value", targets: ["Hash Value"]),
+        .library(name: "Hash Protocol", targets: ["Hash Protocol"]),
+        .library(name: "Hash Tagged", targets: ["Hash Tagged"]),
         .library(
             name: "Hash Standard Library Integration",
             targets: ["Hash Standard Library Integration"]
         ),
-
-        .library(
-            name: "Hash",
-            targets: ["Hash"]
-        ),
-
-        .library(
-            name: "Hash Test Support",
-            targets: ["Hash Test Support"]
-        ),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-molecules/swift-equation.git", branch: "main"),
-        .package(url: "https://github.com/swift-molecules/swift-property.git", branch: "main"),
-        .package(url: "https://github.com/swift-molecules/swift-tagged.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-equation.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-tagged.git", branch: "main"),
     ],
     targets: [
 
-        .target(
-            name: "Hash Primitive",
-            dependencies: []
-        ),
+        .target(name: "Hash", dependencies: []),
 
         .target(
             name: "Hash Value",
             dependencies: [
-                "Hash Primitive",
+                .target(name: "Hash"),
                 .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
         .target(
             name: "Hash Protocol",
             dependencies: [
-                "Hash Value",
-                .product(name: "Equation", package: "swift-equation"),
+                .target(name: "Hash Value"),
+                .product(name: "Equation Protocol", package: "swift-equation"),
             ]
         ),
         .target(
             name: "Hash Tagged",
             dependencies: [
-                "Hash Protocol",
+                .target(name: "Hash Protocol"),
                 .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
@@ -83,36 +55,42 @@ let package = Package(
         .target(
             name: "Hash Standard Library Integration",
             dependencies: [
-                "Hash Protocol",
+                .target(name: "Hash Protocol"),
+                .product(
+                    name: "Equation Standard Library Integration",
+                    package: "swift-equation"
+                ),
             ]
-        ),
-
-        .target(
-            name: "Hash",
-            dependencies: [
-                "Hash Primitive",
-                "Hash Value",
-                "Hash Protocol",
-                "Hash Tagged",
-                "Hash Standard Library Integration",
-                .product(name: "Property", package: "swift-property"),
-                .product(name: "Equation", package: "swift-equation"),
-            ]
-        ),
-
-        .target(
-            name: "Hash Test Support",
-            dependencies: [
-                "Hash",
-                .product(name: "Tagged Test Support", package: "swift-tagged"),
-            ],
-            path: "Tests/Support"
         ),
         .testTarget(
             name: "Hash Tests",
             dependencies: [
-                "Hash",
-                "Hash Test Support",
+                .target(name: "Hash"),
+            ]
+        ),
+        .testTarget(
+            name: "Hash Value Tests",
+            dependencies: [
+                .target(name: "Hash Value"),
+            ]
+        ),
+        .testTarget(
+            name: "Hash Protocol Tests",
+            dependencies: [
+                .target(name: "Hash Protocol"),
+            ]
+        ),
+        .testTarget(
+            name: "Hash Tagged Tests",
+            dependencies: [
+                .target(name: "Hash Tagged"),
+                .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
+            ]
+        ),
+        .testTarget(
+            name: "Hash Standard Library Integration Tests",
+            dependencies: [
+                .target(name: "Hash Standard Library Integration"),
             ]
         ),
     ],

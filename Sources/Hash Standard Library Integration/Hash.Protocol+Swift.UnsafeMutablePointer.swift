@@ -1,1 +1,1 @@
-extension UnsafeMutablePointer: @unsafe Hash.`Protocol` {}
+extension UnsafeMutablePointer: @unsafe Hash::Hash.`Protocol` {}

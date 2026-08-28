@@ -1,1 +1,1 @@
-extension ArraySlice: Hash.`Protocol` where Element: Hash.`Protocol`, Element: Copyable {}
+extension ArraySlice: Hash::Hash.`Protocol` where Element: Hash::Hash.`Protocol`, Element: Copyable {}

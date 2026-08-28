@@ -1,4 +1,4 @@
-extension EmptyCollection: Hash.`Protocol` where Element: Hash.`Protocol` {
+extension EmptyCollection: Hash::Hash.`Protocol` where Element: Hash::Hash.`Protocol` {
 
     @inlinable
     @_disfavoredOverload

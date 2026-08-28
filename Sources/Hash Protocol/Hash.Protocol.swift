@@ -1,22 +1,21 @@
-public import Hash_Primitive
-public import Tagged
+public import Hash_Value
 
-extension Hash {
+extension Hash::Hash {
 
     public protocol `Protocol`: Swift.Hashable, ~Copyable, ~Escapable {
 
         borrowing func hash(into hasher: inout Hasher)
 
-        var hashValue: Hash.Value { get }
+        var hashValue: Hash::Hash.Value { get }
     }
 }
 
-extension Hash.`Protocol` where Self: ~Copyable & ~Escapable {
+extension Hash::Hash.`Protocol` where Self: ~Copyable & ~Escapable {
 
     @inlinable
-    public var hashValue: Hash.Value {
+    public var hashValue: Hash::Hash.Value {
         var hasher = Hasher()
         hash(into: &hasher)
-        return Hash.Value(_unchecked: hasher.finalize())
+        return Hash::Hash.Value(_unchecked: hasher.finalize())
     }
 }

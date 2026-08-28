@@ -1,1 +1,1 @@
-extension Swift.Array: Hash.`Protocol` where Element: Hash.`Protocol`, Element: Copyable {}
+extension Swift.Array: Hash::Hash.`Protocol` where Element: Hash::Hash.`Protocol`, Element: Copyable {}

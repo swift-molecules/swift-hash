@@ -1,4 +1,4 @@
 public import Tagged
 
-extension Tagged: Hash.`Protocol`
-where Tag: ~Copyable & ~Escapable, Underlying: Hash.`Protocol` & ~Copyable & Escapable {}
+extension Tagged::Tagged: Hash::Hash.`Protocol`
+where Tag: ~Copyable & ~Escapable, Underlying: Hash::Hash.`Protocol` & ~Copyable & Escapable {}

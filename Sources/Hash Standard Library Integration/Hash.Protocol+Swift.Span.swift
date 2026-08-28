@@ -1,5 +1,5 @@
-extension Span: Hash.`Protocol`, @retroactive Swift.Hashable
-where Element: Hash.`Protocol` & ~Copyable {
+extension Span: Hash::Hash.`Protocol`, @retroactive Swift.Hashable
+where Element: Hash::Hash.`Protocol` & ~Copyable {
 
     @inlinable
     @_disfavoredOverload

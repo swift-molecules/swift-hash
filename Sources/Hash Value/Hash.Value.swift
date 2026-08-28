@@ -1,7 +1,7 @@
-public import Hash_Primitive
+public import Hash
 public import Tagged
 
-extension Hash {
+extension Hash::Hash {
 
-    public typealias Value = Tagged<Hash, Int>
+    public typealias Value = Tagged::Tagged<Hash::Hash, Int>
 }
