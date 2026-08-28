@@ -1,4 +1,5 @@
 import Hash_Tagged
+import Hash_Standard_Library_Integration
 import Tagged_Standard_Library_Integration
 import Testing
 

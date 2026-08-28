@@ -84,6 +84,7 @@ let package = Package(
             name: "Hash Tagged Tests",
             dependencies: [
                 .target(name: "Hash Tagged"),
+                .target(name: "Hash Standard Library Integration"),
                 .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
             ]
         ),
