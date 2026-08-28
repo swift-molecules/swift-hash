@@ -1,1 +1,2 @@
 @_exported public import Hash_Protocol
+@_exported public import Equation_Standard_Library_Integration

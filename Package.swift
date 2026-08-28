@@ -56,6 +56,10 @@ let package = Package(
             name: "Hash Standard Library Integration",
             dependencies: [
                 .target(name: "Hash Protocol"),
+                .product(
+                    name: "Equation Standard Library Integration",
+                    package: "swift-equation"
+                ),
             ]
         ),
         .testTarget(
